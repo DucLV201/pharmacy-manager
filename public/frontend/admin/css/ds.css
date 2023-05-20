@@ -1,0 +1,32 @@
+hr{
+    margin: 0px;
+}
+
+.pds{
+    padding: 0px 25px;
+}
+.heigh550{
+    height: 550px;
+}
+.box-orange {
+    font-size: 19px;
+    position: absolute;
+    /* background: orange; */
+    width: 90%;
+    height: 51px;
+    /* left: 5px; */
+    /* top: 5px; */
+    font-weight: 700;
+    bottom: 2px;
+    line-height: 50px;
+}
+.box-orange1 {
+    position: absolute;
+    right: 10px;
+  }
+.scrollable-content {
+    overflow-y: auto;
+}
+.scrollable-content::-webkit-scrollbar {
+    width: 0px;
+}

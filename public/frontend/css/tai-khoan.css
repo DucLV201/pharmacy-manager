@@ -1,0 +1,53 @@
+a.nav-link:hover {
+    color: #01383f!important;
+}
+/* page tai khoan  */
+.account-page-tab-content .nav-tabs .nav-link {
+    border-radius: 0;
+}
+
+.account-page-tab-content a.nav-link {
+    margin-left: 0;
+}
+
+.account-page-tab-content .nav-tabs .nav-item.active {
+    color: black;
+    border-top: 4px solid #9da8a9;
+}
+
+.account-page-tab-content .nav-tabs a {
+    color: gray;
+}
+
+.button-capnhat {
+    background: linear-gradient(#f8c168,#ffa142);
+    color: white;
+    font-weight: 500;
+    padding: 7px 15px 7px 15px;
+}
+
+td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.donhang-table table th {
+    font-weight: 500;
+    background: #cecece;
+}
+
+h3.account-header {
+    color: #9d9d9d;
+    font-size: 18px;
+}
+.donhang-table{
+    margin-top: 10px;
+}
+
+

@@ -1,0 +1,25 @@
+<div class="row">
+	<div class="col-4">
+	   <a href="#"><img src="./frontend/images/{{$post->img_title}}" alt="Image" style="padding: 20px; border-radius: 28px;"></a>
+	</div>
+	<div class="col-8">
+	   <div style="padding:20px">
+		  <div class="block">
+			 <a href="#">
+			 <span class ="btn-loaisk1">{{$post->cate_name}}</span>
+			 </a>
+		  </div>
+		  <a href="#" class="a_post">
+			 <h6>{{$post->title}}</h6>
+		  </a>
+		  <?php
+			 $data = $post->description;
+			 $content = html_entity_decode($data);
+			 ?>
+		  <div class="mtthuoc">
+			 <?php echo $content; ?>...
+		  </div>
+	   </div>
+	</div>
+</div>
+
