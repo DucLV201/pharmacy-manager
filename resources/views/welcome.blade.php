@@ -47,6 +47,11 @@
             font-size: .8rem;
             color: red;
         }
+        .form-message1 {
+            font-size: .8rem;
+            color: #10818c;
+        }
+
         /* Search */
 .input-search {
     position: relative;
@@ -123,6 +128,8 @@
     padding: 0;
     color: #aa1318;
 }
+
+
     </style>
 <!-- ajax comment -->
 <!-- <script type="text/javascript">
@@ -173,6 +180,10 @@
 
 
 <body>
+
+    <div id="loading-overlay">
+    <div class="loading-spinner"></div>
+    </div>
     <!-- code cho nut like share facebook  -->
     <div id="fb-root"></div>
     <script async defer crossorigin="anonymous"
@@ -194,7 +205,7 @@
                 <form 
                     class="form-inline ml-auto my-2 my-lg-0 mr-3"
                     method="get"
-                    action="./search">
+                    action="{{url('/search')}}">
                     <input type="hidden" name="_token" value="LAfo1u8NA1REx3Wc9FWVZQQc81pWseqbZqHCxhJ6">
                     <div class="input-group" style="width: 520px;">
                         <input 
@@ -217,7 +228,7 @@
                     </div>
                 </form>
                 
-                @if(isset(Session::get('user')->userid))
+                @if(isset(Session::get('user')->id))
                 <!-- ô đăng xuất khi đăng nhập thành công -->
                 <ul class="navbar-nav mb-1 ml-auto">
                     <div class="dropdown">
@@ -232,6 +243,7 @@
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                             <a class="dropdown-item nutdangky text-center mb-2" href="{{URL::to('/dangxuat')}}">Đăng xuất</a>
                             @if(Session::get('user')->isadmin == 1)
+                                <a class="dropdown-item nutdangky text-center mb-2" href="{{URL::to('/xuat-hoa-don')}}">Trang nhân viên bán hàng</a>
                                 <a class="dropdown-item nutdangky text-center mb-2" href="{{URL::to('/show_dashboard')}}">Trang quản trị</a>
                             @endif
                             <a class="dropdown-item nutdangky text-center mb-2" href="{{URL::to('/thong-tin-ca-nhan')}}">Tài khoản của bạn</a>
@@ -416,23 +428,34 @@
 
                         <div class="custom-control custom-checkbox mb-3">
                             <input type="checkbox" class="custom-control-input" id="customCheck1">
-                            <label class="custom-control-label"  for="customCheck1">Nhớ mật khẩu</label>
-                            <a href="#" class="float-right text-decoration-none" id="forgot"  style="color: #F5A623">Quên mật
+                            <a href="#" class="float-right text-decoration-none" id="showForgotPassword"  style="color: #F5A623">Quên mật
                                 khẩu</a>
                         </div>
 
                         <button class="btn btn-lg btn-block btn-signin text-uppercase text-white" type="submit"
                             style="background: #F5A623">Đăng nhập</button>
                         <hr class="my-4">
-                        <button class="btn btn-lg btn-google btn-block text-uppercase" type="submit"><i
-                                class="fab fa-google mr-2"></i> Đăng nhập bằng Google</button>
-                        <button class="btn btn-lg btn-facebook btn-block text-uppercase" type="submit"><i
-                                class="fab fa-facebook-f mr-2"></i> Đăng nhập bằng Facebook</button>
+                        
                     </form>
+                    <div id="forgotPasswordForm" style ="display:none">
+                            <label class="form-label">Gửi yêu cầu khôi phục mật khẩu</label>
+                            <p></p>
+                            <form method="POST" action="{{ route('password.email') }}" id="forgotForm">
+                                <div class="form-group">
+                                <label for="login-email" class="form-label">Email</label>
+                                <input type="text" class="form-control" id="email" name="email">
+                                <p class="form-message"></p>
+                                <p class="form-message1"></p>
+                            </div>
+                                <button type="submit1" style="background: #F5A623; padding: 2px 6px; border-style: none; border-radius: 5px;">Gửi</button>
+                            </form>
+                        </div>
                 </div>
             </div>
         </div>
     </div>
+
+    
     
 
     
@@ -533,13 +556,30 @@
     <script src="{{asset('frontend/js/validator.js')}}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/notify/0.4.2/notify.min.js"></script>
     <script>
+        $(document).ready(function() {
+            $('#showForgotPassword').click(function(e) {
+                e.preventDefault();
+                $('#forgotPasswordForm').removeAttr('style');
+            });
+
+        });
+        // $(document).ajaxStart(function() {
+        //     $('#loading-overlay').fadeIn();
+        // });
+
+        // $(document).ajaxStop(function() {
+        //     $('#loading-overlay').fadeOut();
+        // });
+
+    </script>
+    <script>
         Validator({
             form: '#form-signup',
             formGroup: '.form-group',
             message: '.form-message',
             rules: [
                 Validator.isRequire('#res-fullname'),
-                //Validator.isPhoneNumber('#res-phone'),
+                Validator.isPhoneNumber('#res-phone'),
                 Validator.isEmail('#res-email'),
                 Validator.isPassword('#res-password'),
                 Validator.isConfirm('#res-passwordcf', function() {
@@ -610,7 +650,7 @@
             let searchKey = $(this).val();
             if(searchKey) {
                 $.ajax({
-                    url: "/NhaThuoc/get_suggestion",
+                    url: "{{url('/get_suggestion')}}",
                     method: 'post',
                     data: {
                         searchKey: searchKey
@@ -632,9 +672,43 @@
             }   
 
         })
+        Validator({
+            form: '#forgotForm',
+            formGroup: '.form-group',
+            message: '.form-message',
+            rules: [
+                Validator.isEmail('#email'),
+            ],
+                onSubmit: function(data) {
+                    let userEmail = $('#email').val()
+                    let token = $('meta[name="csrf-token"]').prop('content');// Lấy giá trị của CSRF token từ thẻ meta
+                    $('#loading-overlay').fadeIn();
+                    $.ajax({
+                        url: "{{url('/password/email')}}",
+                        method: 'post',
+                        data: 
+                        {
+                            email: userEmail,
+                            _token: token
+                        },
+                        headers: {
+                            'X-CSRF-TOKEN': token // Sử dụng mã token mới lấy từ thẻ meta
+                        },
+                        success: function(data) {
+                            if(data == 'fail')
+                                $('.form-message').text('Email không tồn tại');
+                            if(data == 'success') {
+                                $('.form-message1').text('Gửi yêu cầu thành công, lòng kiểm tra email');
+                            }
+                            $('#loading-overlay').fadeOut();
+                        }
+                    })
+                }
+        });
 
         
     </script>
+    
 </body>
 
 </html>

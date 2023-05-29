@@ -58,12 +58,7 @@
 <div class="container ">
     <div class="row">
       <div class="col-12">
-        @foreach($product_cate as $value)
-        <?php 
-            $id=$value->id
-        ?>
-        <h5 style = "margin:10px">{{$value->name}}</h5>
-        @endforeach
+        <h5 style = "margin:10px">Kết quản tìm kiếm cho '{{$searchKey}}'</h5>
       </div>
     </div>
     <div class="row">
@@ -77,73 +72,62 @@
                 <div class="form-group">
                 <label for="price">Đối tượng:</label>
                 <select class="form-control" id="object" onchange="redirectToPage(this)">
-                    <?php
-                    $name_dt="Tất cả"
-                    ?>
-                    @foreach($product_cate as $value)
-                    <option value="{{URL::to('/danh-muc-san-pham/'.$value->id)}}">Tất cả</option>
-                    @endforeach
-
-                    @foreach($product_cate as $value)
+                
+                    
+                    <option value="{{URL::to('/search?search_key='.$searchKey)}}">Tất cả</option>
+                   
                     @foreach($object as $value1)
                     
                     @if($check_object==$value1->name)
-                    <option value="{{URL::to('/doi-tuong/'.$value->id.'/'.$value1->name)}}" selected>{{$value1->name}}</option>
-                    <?php
-                    $name_dt=$value1->name
-                    ?>
+                    <option value="{{URL::to('/loc-doi-tuong/'.$searchKey.'/'.$value1->name)}}" selected>{{$value1->name}}</option>
                     @else
-                    <option value="{{URL::to('/doi-tuong/'.$value->id.'/'.$value1->name)}}" >{{$value1->name}}</option>
+                    <option value="{{URL::to('/loc-doi-tuong/'.$searchKey.'/'.$value1->name)}}" >{{$value1->name}}</option>
                     @endif
                     @endforeach
-                    @endforeach
+                 
                 </select>
                 </div>
                 <div class="form-group">
                 <label for="category">Thương hiệu:</label>
                 <select class="form-control" id="object" onchange="redirectToPage(this)">
-                    @foreach($product_cate as $value)
-                    @if($name_dt=="Tất cả")
-                    <option value="{{URL::to('/danh-muc-san-pham/'.$value->id)}}">Tất cả</option>
-                    @else
-                    <option value="{{URL::to('/doi-tuong/'.$value->id.'/'.$name_dt)}}">Tất cả</option>
-                    @endif
-                    @endforeach
                     
-                    @foreach($product_cate as $value)
+                  
+                    
+                    <option value="{{URL::to('/search?search_key='.$searchKey)}}">Tất cả</option>
+                    
                     @foreach($trademark as $value1)
                     
-                    <option value="{{URL::to('/thuong-hieu/'.$value->id.'/'.$name_dt.'/'.$value1->name_supplier)}}" @if($check_trade==$value1->name_supplier) selected @endif >{{$value1->name_supplier}}</option>
+                    <option value="{{URL::to('/loc-thuong-hieu/'.$searchKey.'/'.$value1->name_supplier)}}" @if($check_trade==$value1->name_supplier) selected @endif >{{$value1->name_supplier}}</option>
                     @endforeach
-                    @endforeach
+                    
                 </select>
                 </div>
-                
+                <?php $id=1 ?>
                 
             </form>
             <div class="form-group">
                 <label for="price"><strong>Giá:</strong></label>
                 <div class="col">
                     <div class="row nom">
-                        <input class="form-check-input" type="radio" name="price" id="price1" value="1" onclick="redirectToPage1('{{URL::to('/gia/'.$id.'/1')}}')" @if($price==1) checked @endif>
+                        <input class="form-check-input" type="radio" name="price" id="price1" value="1" onclick="redirectToPage1('{{URL::to('/loc-gia/'.$searchKey.'/1')}}')" @if($price==1) checked @endif>
                         <label class="form-check-label" for="price1">
                         Dưới 100.000đ
                         </label>
                     </div>
                     <div class="row nom">
-                        <input class="form-check-input" type="radio" name="price" id="price2" value="2" onclick="redirectToPage1('{{URL::to('/gia/'.$id.'/2')}}')" @if($price==2) checked @endif>
+                        <input class="form-check-input" type="radio" name="price" id="price2" value="2" onclick="redirectToPage1('{{URL::to('/loc-gia/'.$searchKey.'/2')}}')" @if($price==2) checked @endif>
                         <label class="form-check-label" for="price2">
                         100.000đ đến 300.000đ
                         </label>
                     </div>
                     <div class="row nom">
-                        <input class="form-check-input" type="radio" name="price" id="price3" value="3" onclick="redirectToPage1('{{URL::to('/gia/'.$id.'/3')}}')" @if($price==3) checked @endif>
+                        <input class="form-check-input" type="radio" name="price" id="price3" value="3" onclick="redirectToPage1('{{URL::to('/loc-gia/'.$searchKey.'/3')}}')" @if($price==3) checked @endif>
                         <label class="form-check-label" for="price3">
                         300.000đ đến 500.000đ
                         </label>
                     </div>
                     <div class="row nom">
-                        <input class="form-check-input" type="radio" name="price" id="price4" value="4" onclick="redirectToPage1('{{URL::to('/gia/'.$id.'/4')}}')" @if($price==4) checked @endif>
+                        <input class="form-check-input" type="radio" name="price" id="price4" value="4" onclick="redirectToPage1('{{URL::to('/loc-gia/'.$searchKey.'/4')}}')" @if($price==4) checked @endif>
                         <label class="form-check-label" for="price4">
                         Trên 500.000đ
                         </label>
@@ -246,6 +230,8 @@
                         
                 </div>
                 @endforeach
+                
+
                 </div>
                 <div class="pagination justify-content-center" style="margin:auto">
                     <ul class="pagination">
@@ -262,6 +248,7 @@
                         </li>
                     </ul>
                 </div>
+                
             
         </div> 
         </div>

@@ -85,7 +85,7 @@
                              <div class="group d-flex justify-content-between">
                                             <p class="label">Sản phẩm</p>
                                             <p class="label" style="margin-left:300px">Giá</p>
-                                            <p class="giamgia">Thành tiền</p>
+                                            <p class="">Thành tiền</p>
                                         </div>
                                         <br>
                                         <hr>
@@ -120,11 +120,11 @@
                                         </div>
                                         
                                         <div class="item-price ml-auto d-flex flex-column align-items-end">
-                                        <div class="giamoi" style="margin-right:150px"> {{number_format($v_content->price) }} đ</div> 
+                                        <div class="giamoi" style="margin-right:150px"> {{number_format($v_content->price, 0, ',', '.') }} đ</div> 
                                             <div class="giamoi" data-rowid="{{$v_content->rowId}}" style="margin-top:-20px">
                                                 <?php  $subtotal = $v_content->price * $v_content->qty;
-                                                    echo number_format($subtotal) ;
-                                                ?>đ
+                                                    echo number_format($subtotal, 0, ',', '.') ;
+                                                ?>&nbspđ
                                             </div> 
                                             <span class="remove mt-auto" >
                                                 <a href="{{URL::to('/delete-to-cart/'.$v_content->rowId)}}"><i class="far fa-trash-alt" ></i></a>
@@ -148,7 +148,7 @@
                                     <div class="tonggiatien">
                                         <div class="group d-flex justify-content-between">
                                             <p class="label">Tạm tính:</p>
-                                            <p class="tamtinh">{{Cart::subtotal()}} ₫</p>
+                                            <p class="tamtinh">{{number_format(floatval(str_replace(',', '', Cart::subtotal())), 0, ',', '.')}} ₫</p>
                                         </div>
                                         <div class="group d-flex justify-content-between">
                                             <p class="label">Giảm giá:</p>
@@ -158,13 +158,10 @@
                                             <p class="label">Phí vận chuyển:</p>
                                             <p class="phivanchuyen">0 ₫</p>
                                         </div>
-                                        <div class="group d-flex justify-content-between">
-                                            <p class="label">Phí dịch vụ:</p>
-                                            <p class="phidicvu">0 ₫</p>
-                                        </div>
+                                        
                                         <div class="group d-flex justify-content-between align-items-center">
                                             <strong class="text-uppercase">Tổng cộng:</strong>
-                                            <p class="tongcong">{{Cart::subtotal()}} ₫</p>
+                                            <p class="tongcong">0đ</p>
                                         </div>
                                         <small class="note d-flex justify-content-end text-muted">
                                             (Giá đã bao gồm VAT)
@@ -178,7 +175,7 @@
                     <div class="col-md-4 cart-steps pl-0">
                         <div id="cart-steps-accordion" role="tablist" aria-multiselectable="true">
                         <!-- @if(Cart::count()>0) -->
-                        @if(isset(Session::get('user')->userid )&& Cart::count()>0)
+                        @if(isset(Session::get('user')->id )&& Cart::count()>0)
 
                             <!-- bước số 2: nhập địa chỉ giao hàng  -->
                             <div class="card">
@@ -195,7 +192,7 @@
                                 <div id="step2contentid" class="collapse in" role="tabpanel"
                                     aria-labelledby="step2header" class="stepscontent">
                                     <div class="card-body">
-                                        <form id="form-checkout" class="form-diachigiaohang" method="POST" action="{{URL::to('/payment')}}">
+                                        <form id="form-checkout" class="form-diachigiaohang" >
                                             {{csrf_field()}}
                                             <div class="form-label-group">
                                                 <input type="text" id="inputName" class="form-control"
@@ -204,6 +201,68 @@
                                             <div class="form-label-group">
                                                 <input type="text" id="inputPhone" class="form-control"
                                                     placeholder="Nhập số điện thoại" name="phone" required value="{{Session::get('user')->phone}}">
+                                            </div>
+
+                                            <div class="form-label-group">
+                                                <select id="province" class="form-control" name="province">
+                                                @if(Session::get('user')->province_id!=0 || Session::get('user')->province_id!=null )
+                                                    @foreach ($provinces as $province)
+                                                        @if($province->id == Session::get('user')->province_id)
+                                                        <option value="{{ $province->id }}">{{ $province->name }}</option>
+                                                        @break
+                                                        @endif
+                                                    @endforeach
+                                                @else
+                                                    <option value="">Chọn Tỉnh/Thành phố</option>
+                                                @endif
+                                                @foreach ($provinces as $province)
+                                                    <option value="{{ $province->id }}">{{ $province->name }}</option>
+                                                @endforeach
+                                                </select>
+                                            </div>
+
+                                            <div class="form-label-group">
+                                                <select id="district" class="form-control" name="district">
+                                                    @if(Session::get('user')->district_id!=0 || Session::get('user')->district_id!=null)
+                                                        @foreach ($districts as $district)
+                                                            @if($district->id == Session::get('user')->district_id)
+                                                            <option value="{{ $district->id }}">{{ $district->name }}</option>
+                                                            @break
+                                                            @endif
+                                                        @endforeach
+                                                        <option value="">Chọn Quận/Huyện</option>
+                                                        @foreach ($districts as $district)
+                                                            @if($district->province_id == Session::get('user')->province_id)
+                                                                <option value="{{ $district->id }}">{{ $district->name }}</option>
+                                                            @endif
+                                                        @endforeach
+                                                    @else
+                                                        <option value="">Chọn Quận/Huyện</option>
+                                                    @endif
+                                                    
+                                                </select>
+                                            </div>
+
+                                            <div class="form-label-group">
+                                                <select id="ward" class="form-control" name="ward" data-district-id="">
+                                                @if(Session::get('user')->ward_id!=0 || Session::get('user')->ward_id!=null)
+                                                        @foreach ($wards as $ward)
+                                                            @if($ward->id == Session::get('user')->ward_id)
+                                                            <option value="{{ $ward->id }}">{{ $ward->name }}</option>
+                                                            @break
+                                                            @endif
+                                                        @endforeach
+                                                        <option value="">Chọn Phường/Xã</option>
+                                                        @foreach ($wards as $ward)
+                                                            @if($ward->district_id == Session::get('user')->district_id)
+                                                                <option value="{{ $ward->id }}" data-district-id="{{$ward->district_id}}">{{ $ward->name }}</option>
+                                                            @endif
+                                                        @endforeach
+                                                    @else
+                                                        <option value="">Chọn Phường/Xã</option>
+                                                    @endif
+                                                    
+                                                </select>
                                             </div>
                                             
                                             <div class="form-label-group">
@@ -216,7 +275,14 @@
                                                     placeholder="Nhập ghi chú (Nếu có)" name="note" ></textarea>
                                             </div>
                                         
-                                            <button class="btn btn-lg btn-block btn-signin text-uppercase text-white" type="submit"
+                                            <div class="form-label-group">
+                                                <select id="payment" class="form-control" name="payment">
+                                                    <option value="">Phương thức thanh toán</option>
+                                                    <option value="1">Thanh toán khi nhận hàng</option>
+                                                    <option value="2">Thanh toán online</option>
+                                                </select>
+                                            </div>
+                                            <button class="btn btn-lg btn-block btn-signin text-uppercase text-white dathang" name="redirect" 
                                                 style="background: #F5A623">Đặt mua</button>
                                         </form>
                                     </div>
@@ -272,12 +338,7 @@
                                                         type="submit" style="background: #F5A623">Đăng nhập</button>
 
                                                     
-                                                    <button class="btn btn-lg btn-google btn-block text-uppercase"
-                                                        type="submit"><i class="fab fa-google mr-2"></i> Đăng nhập bằng
-                                                        Google</button>
-                                                    <button class="btn btn-lg btn-facebook btn-block text-uppercase"
-                                                        type="submit"><i class="fab fa-facebook-f mr-2"></i> Đăng nhập
-                                                        bằng Facebook</button>
+                                                 
                                                 </form>
                                                 
                                             </div>
@@ -338,30 +399,196 @@
 </section>
 <!--end body ........ -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/notify/0.4.2/notify.min.js"></script>
 <script>
   $(document).ready(function() {
-    $('.cart-quantity').change(function(e) {
-      e.preventDefault();
-      var rowId = $(this).data('rowid');
-      var quantity = $(this).val();
+    // var subtotalText = $('.tongcong').text();
+    // var subtotalValue = parseInt(subtotalText);
+            var wardId = $('#ward').val();
+            var districtId = $('#district').val();
+            //var total = parseInt($('.tongcong').text().replace(/[^0-9]/g, ''));lấy số trong chuỗi
+            if (wardId) {
+                $.ajax({
+                    url: '{{URL::to("/get-fee")}}',
+                    method: 'POST',
+                    data: {
+                    wardid: wardId,
+                    districtid: districtId,
+                    _token: '{{csrf_token()}}'
+                    },
+                    success: function (data) {
 
-      $.ajax({
-        url: '{{URL::to("/update-cart-quantity")}}',
-        method: 'POST',
-        data: {
-          rowid: rowId,
-          cart_quantity: quantity,
-          _token: '{{csrf_token()}}'
-        },
-        success: function(response) {
-            $('.tongcong').text(response.subtotal + ' ₫');
-            $('.giamoi[data-rowid="' + rowId + '"]').text(response.price + ' ₫');
-        },
-        error: function(xhr, status, error) {
-          console.log(error);
-        }
-      });
+                        var formattedNumber = (data.fee).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+                        $('.phivanchuyen').text(formattedNumber);
+                        var formattedNumber1 = (data.total).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+                        $('.tongcong').text(formattedNumber1);
+                        var formattedNumber2 = (data.coupon).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+                        $('.giamgia').text(formattedNumber2);
+                    }
+                });
+            } else {
+                $('#ward').html('<option value="">Chọn Phường/Xã</option>');
+            }
+    $('.cart-quantity').change(function(e) {
+        e.preventDefault();
+        var rowId = $(this).data('rowid');
+        var quantity = $(this).val();
+        var feeText = $('.phivanchuyen').text();
+        var Fee = parseInt(feeText.replace(/[^0-9]/g, ''));//loại bỏ ký tự ko phải số và dấu thập phân
+        $.ajax({
+            url: '{{URL::to("/update-cart-quantity")}}',
+            method: 'POST',
+            data: {
+            rowid: rowId,
+            cart_quantity: quantity,
+            fee : Fee,
+            _token: '{{csrf_token()}}'
+            },
+            success: function(response) {
+                $('.tamtinh').text(response.total+ ' ₫');
+                $('.tongcong').text(response.subtotal+ ' ₫');
+                $('.giamgia').text(response.coupon+ ' ₫');
+                $('.giamoi[data-rowid="' + rowId + '"]').text(response.price + ' ₫');
+            },
+            error: function(xhr, status, error) {
+            console.log(error);
+            }
+        });
     });
+        $('#province').change(function () {
+            var provinceId = $(this).val();
+            if (provinceId) {
+                $.ajax({
+                    url: "{{url('/get-districts')}}/" + provinceId,
+                    type: 'GET',
+                    success: function (data) {
+                        $('#district').html('<option value="">Chọn Quận/Huyện</option>');
+                        $.each(data, function (key, value) {
+                            $('#district').append('<option value="' + value.id + '">' + value.name + '</option>');
+                        });
+                    }
+                });
+            } else {
+                $('#district').html('<option value="">Chọn Quận/Huyện</option>');
+                $('#ward').html('<option value="">Chọn Phường/Xã</option>');
+            }
+        });
+
+        $('#district').change(function () {
+            var districtId = $(this).val();
+            if (districtId) {
+                $.ajax({
+                    url: "{{url('/get-wards')}}/" + districtId,
+                    type: 'GET',
+                    success: function (data) {
+                        $('#ward').attr('data-district-id', districtId);
+                        $('#ward').html('<option value="">Chọn Phường/Xã</option>');
+                        $.each(data, function (key, value) {
+                            $('#ward').append('<option value="' + value.id + '"'+'data-district-id="'+districtId+'">' + value.name + '</option>');
+                        });
+                    }
+                });
+            } else {
+                $('#ward').html('<option value="">Chọn Phường/Xã</option>');
+            }
+        });
+        $('#ward').change(function () {
+            var wardId = $(this).val();
+            var districtId = $(this).find(':selected').data('district-id');
+            
+            if (wardId) {
+                $.ajax({
+                    url: '{{URL::to("/get-fee")}}',
+                    method: 'POST',
+                    data: {
+                    wardid: wardId,
+                    districtid: districtId,
+                    _token: '{{csrf_token()}}'
+                    },
+                    success: function (data) {
+
+                        var formattedNumber = (data.fee).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+                        $('.phivanchuyen').text(formattedNumber);
+                        var formattedNumber1 = (data.total).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+                        $('.tongcong').text(formattedNumber1);
+                        var formattedNumber2 = (data.coupon).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+                        $('.giamgia').text(formattedNumber2);
+                    }
+                });
+            } else {
+                $('#ward').html('<option value="">Chọn Phường/Xã</option>');
+            }
+        });
+        $('.dathang').click(function (e) {
+            e.preventDefault();
+            var payment = $('#payment').val();
+            var username =$('#inputName').val();
+            var phone = $('#inputPhone').val();
+            var province = $('#province').find(':selected').text();
+            var district = $('#district').find(':selected').text();
+            var ward = $('#ward').find(':selected').text();
+            var address = $('#inputAddress').val();
+            var coupon =parseInt($('.giamgia').text().replace(/[^0-9]/g, ''));
+            var fee =parseInt($('.phivanchuyen').text().replace(/[^0-9]/g, ''));
+            var total =  parseInt($('.tongcong').text().replace(/[^0-9]/g, ''));
+
+            if (payment==1 && ward!="Chọn Phường/Xã") {
+                $.ajax({
+                    url: '{{URL::to("/order-off")}}',
+                    method: 'POST',
+                    data: {
+                        payment: payment,
+                        username: username,
+                        phone: phone,
+                        province: province,
+                        district: district,
+                        ward: ward,
+                        address: address,
+                        coupon: coupon,
+                        fee: fee,
+                        total: total,
+                    
+                    _token: '{{csrf_token()}}'
+                    },
+                    success: function (data) {
+                        if(data.check == 'ok')
+                                window.location.href = "{{url('/checkout_complete')}}/";
+                        
+                    }
+                });
+            }
+            else if(payment==2 && ward!="Chọn Phường/Xã") {
+                $.ajax({
+                    url: '{{URL::to("/vnpay_payment")}}',
+                    method: 'POST',
+                    data: {
+                        payment: payment,
+                        username: username,
+                        phone: phone,
+                        province: province,
+                        district: district,
+                        ward: ward,
+                        address: address,
+                        coupon: coupon,
+                        fee: fee,
+                        total: total,
+                    
+                    _token: '{{csrf_token()}}'
+                    },
+                    dataType: 'json',
+                    success: function (response) {
+                        if (response.code === '00') {
+                            window.location.href = response.data;
+                        } else {
+                            console.log(response.message);
+                        }
+                        
+                    }
+                });
+            }else{
+                $.notify(`Vui lòng kiểm tra lại thông tin`, 'error')
+            }
+        });
   });
 </script>
 

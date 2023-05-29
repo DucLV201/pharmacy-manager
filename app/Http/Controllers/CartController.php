@@ -7,6 +7,7 @@ use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Auth;
 
 
 use App\Models\Category;
@@ -14,6 +15,9 @@ use App\Models\Product;
 use App\Models\Post;
 use App\Models\PostCate;
 use App\Models\User;
+use App\Models\Province;
+use App\Models\District;
+use App\Models\Ward;
 
 session_start();
 use Exception;
@@ -93,11 +97,12 @@ class CartController extends Controller
     public  function show_cart(){
         $categories = Category::all();
 
-       
+        $provinces = Province::all();
+        $districts = District::all();
+        $wards = Ward::all();
+        //$total1 = Cart::subtotal();
 
-        
-
-        return view('user.cart', ['categories' => $categories]);
+        return view('user.cart', ['categories' => $categories, 'provinces' => $provinces, 'districts' => $districts, 'wards' => $wards]);
        
     }
     public function delete_to_cart($rowId){
@@ -120,9 +125,22 @@ class CartController extends Controller
 
         Cart::update($rowId,$qty);
         $content = Cart::content()->where('rowId', $rowId)->first();
-        $price = number_format($content->price * $qty);
-        
-        return response()->json(['subtotal' => Cart::subtotal(),'price' => $price]);
+        $price = number_format($content->price * $qty, 0, ',', '.');//tính tổng và format định dạng tiền
+        //dd($price,$content->price);
+        $total1 = floatval(str_replace(',', '', Cart::subtotal()));//vì nó dạng chuỗi nên chuyển sang số để tính
+        $coupon1 = 0;
+        if($total1>1000000){
+            $subtotal1 =$total1;
+            $coupon1 = $request->fee;
+        }else{
+            $subtotal1 =$total1 + $request->fee;//cộng tổng tiền bao gồm ship
+        }
+
+        $total = number_format($total1, 0, ',', '.'); //định dạng lại dạng tiền tệ
+        $coupon = number_format($coupon1, 0, ',', '.');
+        $subtotal = number_format($subtotal1, 0, ',', '.');
+        //dd($subtotal,$request->fee,$total);
+        return response()->json(['subtotal' => $subtotal,'price' => $price,'total' => $total,'coupon' => $coupon]);
         
     }
 
@@ -150,8 +168,13 @@ class CartController extends Controller
         }  
         return Redirect::to('/gio-hang'); 
     }
-
     
+    public function show_checkout(){
+        return view('user.checkout_complete');
+    }
+    public function returnvnpay(){
+        return view('vnpay.return_vnpay');
+    }
 
 
 }

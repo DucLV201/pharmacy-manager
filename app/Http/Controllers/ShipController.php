@@ -81,6 +81,48 @@ class ShipController extends Controller
         $wards = Ward::where('district_id', $districtId)->get();
         return response()->json($wards);
     }
+    public function fee(Request $request) {
+        $wardId = $request->wardid;
+        $districtId = $request->districtid;
+
+        // lấy loại hình thức vận chuyển(service)
+        // $response = Http::withHeaders([
+        //     'Token' => 'ce83ded6-f55f-11ed-a967-deea53ba3605',
+        //     'Content-Type' => 'application/json'
+        // ])->get('https://online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/available-services', [
+        //     'shop_id' => 4148300,
+        //     'from_district' => 1526,
+        //     'to_district' => $districtId,
+        // ]);
+        
+        // $data = json_decode($response->body(), true);
+        // foreach ($data['data'] as $item) {
+        //     $service_id= $item['service_id']; // lấy được service_id
+        //     break;
+        // }
+
+        //dùng wradID districtId (có thể dùng thêm service_id để lấy loại hình thức ship) để tính phí ship
+        $response = Http::withHeaders([
+            'Token' => 'ce83ded6-f55f-11ed-a967-deea53ba3605',
+            'ShopId' => '4148300',
+            'Content-Type' => 'application/json'
+        ])->get('https://online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/fee', [
+            'service_type_id' => 2,
+            'insurance_value' => 50000,
+            'to_district_id' => $districtId,
+            'to_ward_code' => $wardId,
+            'height' => 15,
+            'length' => 15,
+            'weight' => 1000,
+            'width' => 10
+        ]);
+        $data = json_decode($response->body(), true);
+        $fee = $data['data']['total'];
+        
+        //dd($districtId,$wardId);
+        
+        return response()->json($fee);
+    }
 
 
 

@@ -54,23 +54,29 @@ class HomeController extends Controller
 
     public function postDangKy(Request $request) {
         try {
-            User::create([
-                'fullname' => $request -> fullname,
-                'email' => $request -> email,
-                'phone' => $request -> phone,
-                'male' => '0',
-                'address' => 'huế',
-                'password' =>bcrypt($request -> password) 
-                ]);
-        } catch(Exception $e) {
+            $email = $request->email;
 
+            // Kiểm tra trùng email
+            $emailExists = User::where('email', $email)->exists();
+
+            if ($emailExists) {
+                return 'fail'; // Trả về thông báo "fail" nếu email đã tồn tại
+            }
+
+            $user = new User;
+                $user->fullname = $request -> fullname;
+                $user->email = $request -> email;
+                $user->phone = $request -> phone;
+                $user->password = bcrypt($request -> password);
+                $user->save();
+                Session::put('user', $user);
+                return 'success';
+               
+                
+        } catch(Exception $e) {
+            
         }   
-        if(Auth::attempt(['email'=>$request -> email, 'password'=>$request -> password])) {
-            Session::put('user', Auth::user());
-            echo 'success';
-        }  else{
-            echo 'fail';
-        }
+        
         
     }
     public function postDangNhap(Request $request) {
@@ -95,9 +101,10 @@ class HomeController extends Controller
 
     public function changedPassword(Request $request) {
         $data = $request->all();
+        //dd($data);
         $email = $data['email'];
         $password = $data['password'];
-        $userid = $data['userId'];
+        $userid = $data['id'];
         $data = array();
         $data['password'] = bcrypt($request->newPassword);
         if (Auth::attempt(['email'=>$email, 'password'=>$password])) { 

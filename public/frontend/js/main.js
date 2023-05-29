@@ -73,6 +73,10 @@ $(function () {
         $("ul.tabs .tab-dangnhap").removeClass("active");
     });
 
+
+
+   
+
     // form dangnhap dangky 
     $(".tab-dangky").click(function (e) {
         $('#formdangnhap').removeClass("fade");

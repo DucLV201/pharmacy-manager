@@ -108,4 +108,22 @@ return [
 
     'password_timeout' => 10800,
 
+    'mailers' => [
+        'smtp' => [
+            'transport' => 'smtp',
+            'host' => env('MAIL_HOST', 'smtp.gmail.com'),
+            'port' => env('MAIL_PORT', 587),
+            'encryption' => env('MAIL_ENCRYPTION', 'tls'),
+            'username' => env('hoten77895@gmail.com'),
+            'password' => env('zppyabbbvcjhehfg'),
+            'timeout' => null,
+            'auth_mode' => null,
+
+        ],
+    ],
+    
+    'from' => [
+        'address' => 'your-email@example.com',
+        'name' => 'Your Name',
+    ],
 ];

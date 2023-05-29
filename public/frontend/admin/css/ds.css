@@ -23,10 +23,30 @@ hr{
 .box-orange1 {
     position: absolute;
     right: 10px;
+    font-size: 17px;
+    font-weight: 700;
+    margin: 15px 0px;
+    padding-right: 0px;
   }
 .scrollable-content {
     overflow-y: auto;
 }
 .scrollable-content::-webkit-scrollbar {
     width: 0px;
+}
+.nutthanhtoan{
+    border: 1px solid #0f64a1;
+    color: #0f64a1;
+    padding: 6px;
+    font-weight: 600;
+    font-size: 15px;
+    /* border-radius: 13px; */
+    margin: 8px 0;
+}
+.nutthanhtoan:hover{
+    background-color: #0f64a1;
+    color: #ffffff;
+}
+.nutpay{
+    margin-top: 10px;
 }

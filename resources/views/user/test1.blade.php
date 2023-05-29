@@ -9,10 +9,10 @@
     <option value="">Chọn Quận/Huyện</option>
 </select>
 
-<select id="ward" name="ward">
+<select id="ward" name="ward" data-district-id="">
     <option value="">Chọn Phường/Xã</option>
 </select>
-
+<p id = "fee">Phí ship:</p>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     $(document).ready(function () {
@@ -42,10 +42,34 @@
                     url: "{{url('/get-wards')}}/" + districtId,
                     type: 'GET',
                     success: function (data) {
+                        $('#ward').attr('data-district-id', districtId);
                         $('#ward').html('<option value="">Chọn Phường/Xã</option>');
                         $.each(data, function (key, value) {
-                            $('#ward').append('<option value="' + value.id + '">' + value.name + '</option>');
+                            $('#ward').append('<option value="' + value.id + '"'+'data-district-id="'+districtId+'">' + value.name + '</option>');
                         });
+                    }
+                });
+            } else {
+                $('#ward').html('<option value="">Chọn Phường/Xã</option>');
+            }
+        });
+
+        $('#ward').change(function () {
+            var wardId = $(this).val();
+            var districtId = $(this).find(':selected').data('district-id');
+            if (wardId) {
+                $.ajax({
+                    url: '{{URL::to("/get-fee")}}',
+                    method: 'POST',
+                    data: {
+                    wardid: wardId,
+                    districtid: districtId,
+                    _token: '{{csrf_token()}}'
+                    },
+                    success: function (data) {
+
+                        $('#fee').text(data + ' ₫');
+                       
                     }
                 });
             } else {

@@ -104,8 +104,8 @@
                               //dd($price);
                         ?>
                        <div class ="prices">
-                          <div class="price"><span class="css-3caoa3" id="content">{{$price2}}</span>
-                          <span class="css-sa9vou">đ</span>
+                          <div class="price"><span class="css-3caoa3" id="content">{{number_format($price2, 0, ',', '.')}} ₫</span>
+                          
                           <span class="css-sa9vou">&nbsp;/&nbsp;</span>
                            @if($value->id_form == 1)
                            <span class="css-sa9vou" id="content1">Tuýp</span>                         
@@ -372,9 +372,10 @@
    var pd_form = document.getElementById("pd_form");                     
    // Định nghĩa hàm thay đổi giá trị của div
    function changeContent(value,value1,form) {
-   content.innerHTML = value;
-   content1.innerHTML = value1;
-   pd_form.value = form;
+      var formattedNumber = (value).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+      content.innerHTML = formattedNumber;
+      content1.innerHTML = value1;
+      pd_form.value = form;
    }
  
 
@@ -395,4 +396,5 @@
    
 </script>
 </section>
-    @endsection
+
+@endsection

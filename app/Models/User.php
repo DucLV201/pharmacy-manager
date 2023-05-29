@@ -34,7 +34,7 @@ class User extends Authenticatable
     }
 
     protected static function updateUser($userid, $data) {
-        return DB::table('users')->where('userid', $userid)->update($data);
+        return DB::table('users')->where('id', $userid)->update($data);
     }
 
     protected static function find() {

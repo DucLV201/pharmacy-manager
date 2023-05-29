@@ -12,6 +12,19 @@
         margin: auto;
         margin-left: 10px;
     }
+    a.nuthuydon{
+        color: #fffefb;
+        padding: 2px 5px;
+        border-radius: 7px;
+        background-color: #339200;
+        margin: 0 10px;
+    }
+    a.nuthuydon:hover{
+        color: #050504;
+        text-decoration: none;
+        background-color:#920000;
+    }
+
 </style>
 <section class="duoinavbar">
         <div class="container text-white">
@@ -107,7 +120,59 @@
                                     <input class="col-md-4" type="text" name="phone" value="{{$info->phone}}">
                                 </div>
                                
-                                
+                                </br>
+                                <div class="row">
+                                    <label class="col-md-2 offset-md-2" >Tỉnh/thành</label>
+                                    <select id="province" name="province">
+                                    @if($info->province_id!=0 || $info->province_id!=null )
+                                        @foreach ($provinces as $province)
+                                            @if($province->id == $info->province_id)
+                                            <option value="{{ $province->id }}">{{ $province->name }}</option>
+                                            @break
+                                            @endif
+                                        @endforeach
+                                    @else
+                                        <option value="">Chọn Tỉnh/Thành phố</option>
+                                    @endif
+                                        @foreach ($provinces as $province)
+                                            <option value="{{ $province->id }}">{{ $province->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                </br>
+                                <div class="row">
+                                    <label class="col-md-2 offset-md-2" >Quận/huyện</label>
+                                    <select id="district" name="district">
+                                        @if($info->district_id!=0 || $info->district_id!=null)
+                                            @foreach ($districts as $district)
+                                                @if($district->id == $info->district_id)
+                                                <option value="{{ $district->id }}">{{ $district->name }}</option>
+                                                @break
+                                                @endif
+                                            @endforeach
+                                        @else
+                                            <option value="">Chọn Quận/Huyện</option>
+                                        @endif
+                                        
+                                    </select>
+                                </div>
+                                </br>
+                                <div class="row">
+                                    <label class="col-md-2 offset-md-2" >Phường/xã</label>
+                                    <select id="ward" name="ward" data-district-id="">
+                                    @if($info->ward_id!=0 || $info->ward_id!=null)
+                                            @foreach ($wards as $ward)
+                                                @if($ward->id == $info->ward_id)
+                                                <option value="{{ $ward->id }}">{{ $ward->name }}</option>
+                                                @break
+                                                @endif
+                                            @endforeach
+                                        @else
+                                            <option value="">Chọn Phường/Xã</option>
+                                        @endif
+                                        
+                                    </select>
+                                </div>
                                 </br>
                                 <div class="row">
                                     <label class="col-md-2 offset-md-2" >Địa chỉ</label>
@@ -149,7 +214,7 @@
                                                     type="submit" 
                                                     id="submit-change" 
                                                     class="button-capnhat text-uppercase offset-md-4 btn btn-warning mb-4"
-                                                    data-user_id="{{Session::get('user')->userid}}"
+                                                    data-user_id="{{Session::get('user')->id}}"
                                                     data-email="{{Session::get('user')->email}}"
                                                     >Cập nhật
                                                 </button>
@@ -170,28 +235,38 @@
                                         <th>Tổng tiền</th>
                                         <th style="width:200px">Trạng thái đơn hàng</th>
                                         <th style="width:150px">Chi tiết đơn hàng</th>
+                                        <th style="width:120px">Thao tác</th>
                                     </tr>
                                     @foreach($ordered as $row)
                                     <tr>
-                                        <td>{{$row->orderid}}</td>
+                                        <td>{{$row->id}}</td>
                                         <td>{{$row->timestamp}}</td>
                                         
-                                        <td>{{$row->totalmoney}}</td>
-                                        <td >
+                                        <td>{{number_format($row->totalmoney)}} đ</td>
+                                        <td class="trinhtrang" data="{{$row->id}}">
                                             <?php if( $row->orderstatus == 0) 
-                                                        echo "Đang chờ phê duyệt" ;
+                                                        echo "Đang xử lý" ;
                                                     elseif($row->orderstatus == 1) 
-                                                        echo "Đã phê duyệt";
+                                                        echo "Đang giao hàng";
                                                     elseif($row->orderstatus == 2) 
                                                         echo "Đã giao";
-                                                    else 
+                                                    elseif($row->orderstatus == 3) 
                                                         echo "Đã từ chối";
+                                                    elseif($row->orderstatus == 4) 
+                                                        echo "Hủy thanh toán";
+                                                    else
+                                                        echo "Đã hủy";
                                             ?>
                                         </td>
                                         <td>
                                        
-                                    <a  href="{{URL::to('/show-details-ordered/'.$row->orderid)}}" data-target="#form"
+                                        <a  href="{{URL::to('/show-details-ordered/'.$row->id)}}" data-target="#form"
                                         style="display:inline-block">Xem chi tiết</a>
+                                        </td>
+                                        <td>
+                                            @if($row->orderstatus == 0)
+                                                <a href="#" class="nuthuydon" data-rowId="{{$row->id}}">Hủy</a>
+                                            @endif
                                         </td>
                                     </tr>
                                     @endforeach
@@ -200,54 +275,92 @@
                         </div>
                         <!-- form chi tiết -->
                         @if(isset($details))
-                           
-                        <div class="" id="form" data-backdrop="static" tabindex="-1" aria-labelledby="dangky_tieude"
-                             aria-hidden="true" >
-                            <div class="modal-dialog ">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <ul class="tabs d-flex justify-content-around list-unstyled mb-0">
-                                                <li >
-                                                
-                                                   <h6>Danh sách sản phẩm</h6>
-                                                    <hr>
-                                                </li>
-                                                
-                                                
-                                            </ul>
-                                            <button  class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true"><a href="{{URL::to('/show-profile')}}"> &times; </a></span>
-                                            </button>
-                                        </div>
-                                        <div class="cart-list-items">
-                                        @foreach($details as $d)
-                                       
+                        <div class="col-lg-9 col-sm-12 dtorder" style="margin: 15px auto ">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <ul class="tabs d-flex justify-content-around list-unstyled mb-0">
+                                        <li >
+                                            <h6>Danh sách sản phẩm</h6>
+                                            <hr>
+                                        </li>
+                                    </ul>
+                                    <button  class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true"><a href="{{URL::to('/thong-tin-ca-nhan')}}"> &times; </a></span>
+                                    </button>
+                                </div>
+                                <div class="cart-list-items">
+                                    @foreach($details as $d)
+                                    <?php 
+                                    $id=$d->orderid;
+                                    ?>
                                     <div class="cart-item d-flex" style="margin-top:8px">
-                                    
-                                    <a href="{{URL::to('/chi-tiet-san-pham/'.$d->bookid)}}" class="img">
-                                        <img src="{{URL::to('public/frontend/images/'.$d->bookimageurl)}}" class="img-fluid" alt="anhsp1" style="width:120px"  >
-                                    </a>
-                                    <div class="item-caption d-flex w-100">
-                                        <div class="item-info ml-3">
-                                            <a href="{{URL::to('/chi-tiet-san-pham/'.$d->bookid)}}" class="ten" style="color:black;text-decoration:none">
-                                                <h6>{{$d->bookname}}</h6></a><p>Số lượng: {{$d->qtyordered}}</p>
-                                        </div>
-                                        
-                                        <div class="item-price ml-auto d-flex flex-column align-items-end">
-                                        <div class="giamoi" style="margin-top:20px">  {{number_format($d->price)}} đ</div>
+                                        <a href="{{URL::to('/chi-tiet-san-pham/'.$d->id)}}" class="img">
+                                        <?php 
+                                            $image_url = explode(',', $d->url)[0]; // lấy giá trị đầu tiên
+                                            ?>
+                                        <img src="{{URL::to('frontend/images/'.$image_url)}}" class="img-fluid" alt="anhsp1" style="width:120px"  >
+                                        </a>
+                                        <div class="item-caption d-flex w-100">
+                                            <div class="item-info col-9">
+                                            <a href="{{URL::to('/chi-tiet-san-pham/'.$d->id)}}" class="ten" style="color:black;text-decoration:none">
+                                                <h6>{{$d->name}}</h6>
+                                            </a>
+                                            <p>Số lượng: {{$d->qtyordered}} {{$d->form}} &nbsp&nbsp<span>Giá: {{number_format($d->amount)}} đ</span></p>
                                             
+                                            </div>
+                                            <div class="item-price d-flex flex-column align-items-end col-3">
+                                            <div class="giamoi" style="margin-top:20px">  {{number_format($d->amount*$d->qtyordered)}} đ</div>
+                                            </div>
                                         </div>
                                     </div>
-                                   
-                                    </div>
-
-                                </br>
-                                <hr>
-                                        @endforeach  
+                                    </br>
+                                    <hr>
+                                    @endforeach 
+                                    @foreach($ordered as $row) 
+                                    @if($row->id ==$id)
+                                    <div class="row" style="margin-top:-20px;padding-right: 15px;margin-bottom: 10px;">
+                                        <div class="col-md-8">
+                                            <div class="row">
+                                            <div class="col-md-3" style="margin-left: 5px;">Trình trạng: 
+                                               
+                                            </div>
+                                            <div class="col-md-7"> 
+                                                @foreach($ordertt as $od) 
+                                                <p class="mb-0">{{$od->content}}<span style="font-size: 14px; color: #605f5f;"> {{$od->timestamp}}</span></p>
+                                                @endforeach
+                                            </div>
                                         </div>
-                                    </div>
+                                        </div>
+                                        <div class="col-md-4 ">
+                                            <div class="tonggiatien">
+                                                <div class="group d-flex justify-content-between">
+                                                    <p class="label mb-0">Giảm giá:</p>
+                                                    <p class="giamgia mb-0">{{number_format($row->coupon)}} đ</p>
+                                                </div>
+                                                <div class="group d-flex justify-content-between">
+                                                    <p class="label mb-0">Phí vận chuyển:</p>
+                                                    <p class="phivanchuyen mb-0">{{number_format($row->fee)}} đ</p>
+                                                </div>
+                                                
+                                                <div class="group d-flex justify-content-between align-items-center">
+                                                    <strong class="text-uppercase">Tổng cộng:</strong>
+                                                    <p class="tongcong mb-0"><span style="font-weight: 600; color: red;">{{number_format($row->totalmoney)}} đ</span></p>
+                                                </div>
+                                                <small class="note d-flex justify-content-end text-muted">
+                                                ({{$row->payment}})
+                                                </small>
+                                            </div>
+                                        </div>
+                                    </div> 
+                    
+                                    @endif
+                                    @endforeach
+                                </div>
                             </div>
-                        </div> 
+                        </div>    
+                        
+                        
+                        
                          
                         @endif
 
@@ -259,7 +372,7 @@
     </section>
     <script src="{{asset('public/frontend/js/validator.js')}}"></script>
     <script>
-        $(document).ready(function() {
+    $(document).ready(function() {
             Validator({
                 form: '#form-change',
                 formGroup: '.form-group',
@@ -285,7 +398,7 @@
                             newPassword: new_pass,
                             email: email,
                             password: old_pass,
-                            userId: userid
+                            id: userid
                         },
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -302,7 +415,68 @@
                     })
                 }
             })
-        })
+        $('#province').change(function () {
+                var provinceId = $(this).val();
+                if (provinceId) {
+                    $.ajax({
+                        url: "{{url('/get-districts')}}/" + provinceId,
+                        type: 'GET',
+                        success: function (data) {
+                            $('#district').html('<option value="">Chọn Quận/Huyện</option>');
+                            $.each(data, function (key, value) {
+                                $('#district').append('<option value="' + value.id + '">' + value.name + '</option>');
+                            });
+                        }
+                    });
+                } else {
+                    $('#district').html('<option value="">Chọn Quận/Huyện</option>');
+                    $('#ward').html('<option value="">Chọn Phường/Xã</option>');
+                }
+        });
+
+        $('#district').change(function () {
+            var districtId = $(this).val();
+            if (districtId) {
+                $.ajax({
+                    url: "{{url('/get-wards')}}/" + districtId,
+                    type: 'GET',
+                    success: function (data) {
+                        $('#ward').attr('data-district-id', districtId);
+                        $('#ward').html('<option value="">Chọn Phường/Xã</option>');
+                        $.each(data, function (key, value) {
+                            $('#ward').append('<option value="' + value.id + '"'+'data-district-id="'+districtId+'">' + value.name + '</option>');
+                        });
+                    }
+                });
+            } else {
+                $('#ward').html('<option value="">Chọn Phường/Xã</option>');
+            }
+        });
+
+        $('.nuthuydon').click(function(e) {
+            e.preventDefault();
+            var rowId = $(this).data('rowid');
+            $('#loading-overlay').fadeIn();
+            $.ajax({
+            url: '{{URL::to("/huy-don")}}',
+            method: 'POST',
+            data: {
+                rowid: rowId,
+                _token: '{{csrf_token()}}'
+            },
+            success: function(response) {
+                $('.trinhtrang[data="'+ rowId +'"]').text(response.data);
+                $('.nuthuydon[data-rowId="'+ rowId +'"]').remove();
+                $('#loading-overlay').fadeOut();
+            },
+            error: function(xhr, status, error) {
+                console.log(error);
+            }
+            
+            });
+        });
+
+    })
             
     </script>
 
