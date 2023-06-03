@@ -76,7 +76,17 @@ Route::get('/checkout_vnpay', 'CartController@returnvnpay');
 //Staff
 Route::get('/path/to/product', 'ProductController@get_productid');
 Route::get('/xuat-hoa-don', 'InvoiceController@index');
+Route::get('/xu-ly-don-hang', 'InvoiceController@order_processing');
+Route::get('/thong-ke-ban-hang', 'InvoiceController@sale_statistics');
+Route::get('/chi-tiet-don-hang/{id}', 'InvoiceController@order_detail');
+Route::get('/chi-tiet-hoa-don/{id}', 'InvoiceController@bill_detail');
 Route::post('/them-don-hang', 'InvoiceController@add_retail');
+Route::post('/them-don-hang-vnp', 'CheckoutVNPayController@vnpay_payment_staff');
+Route::get('/checkout-vnpay-st', 'InvoiceController@returnvnpay_st');
+Route::post('/order_confirm', 'InvoiceController@confirm_order');
+Route::post('/order_success', 'InvoiceController@success_order');
+Route::post('/order_cancer', 'InvoiceController@cancer_order');
+Route::post('/order_delete', 'InvoiceController@delete_order');
 //test
 //Route::get('/danh-muc-san-pham/{id}', 'CategoryProduct@yourMethod');
 Route::get('/test',function(){

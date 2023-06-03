@@ -11,22 +11,26 @@
     <meta name="description"
         content="Ample Admin Lite is powerful and clean admin dashboard template, inpired from Bootstrap Framework">
     <meta name="robots" content="noindex,nofollow">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Trang nhân viên</title>
     <link rel="canonical" href="https://www.wrappixel.com/templates/ample-admin-lite/" />
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="plugins/images/favicon.png">
     <!-- Custom CSS -->
-    <link href="./frontend/admin/plugins/bower_components/chartist/dist/chartist.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="./frontend/admin/plugins/bower_components/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.css">
+    <link href="{{asset('/frontend/admin/plugins/bower_components/chartist/dist/chartist.min.css')}}" rel="stylesheet">
+    <link rel="stylesheet" href="{{asset('/frontend/admin/plugins/bower_components/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.css')}}">
     <!-- Custom CSS -->
-    <link href="./frontend/admin/css/style.min.css" rel="stylesheet">
-    
+    <link href="{{asset('/frontend/admin/css/style.min.css')}}" rel="stylesheet">
+
+
+
 </head>
 
 <body>
     <!-- ============================================================== -->
     <!-- Preloader - style you can find in spinners.css -->
     <!-- ============================================================== -->
+   
     <div class="preloader">
         <div class="lds-ripple">
             <div class="lds-pos"></div>
@@ -51,7 +55,7 @@
                         <!-- Logo icon -->
                         <b class="logo-icon">
                             <!-- Dark Logo icon -->
-                            <img src="./frontend/admin/plugins/images/logo.png" alt="homepage" style ="width : 150px"/>
+                            <img src="{{asset('/frontend/admin/plugins/images/logo.png')}}" alt="homepage" style ="width : 150px"/>
                         </b>
                         <!--End Logo icon -->
                         <!-- Logo text -->
@@ -95,7 +99,7 @@
                         <!-- ============================================================== -->
                         <li>
                             <a class="profile-pic" href="#">
-                                <img src="./frontend/admin/plugins/images/users/varun.jpg" alt="user-img" width="36"
+                                <img src="{{asset('/frontend/admin/plugins/images/users/varun.jpg')}}" alt="user-img" width="36"
                                     class="img-circle"><span class="text-white font-medium">{{Session::get('user')->fullname}}</span></a>
                         </li>
                         <!-- ============================================================== -->
@@ -125,15 +129,15 @@
                             </a>
                         </li>
                         <li class="sidebar-item">
-                            <a class="sidebar-link waves-effect waves-dark sidebar-link" href="xulydonhang.php" aria-expanded="false">
+                            <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{URL::to('/xu-ly-don-hang')}}" aria-expanded="false">
                                 <i class="fas fa-ambulance" aria-hidden="true"></i>
                                 <span class="hide-menu">Đơn hàng</span>
                             </a>
                         </li>
                         <li class="sidebar-item">
-                            <a class="sidebar-link waves-effect waves-dark sidebar-link" href="danhmuc.php" aria-expanded="false">
+                            <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{URL::to('/thong-ke-ban-hang')}}" aria-expanded="false">
                                 <i class="fas fa-align-justify" aria-hidden="true"></i>
-                                <span class="hide-menu">Quản lý danh mục</span>
+                                <span class="hide-menu">Thống kê bán hàng</span>
                             </a>
                         </li>
                         <li class="sidebar-item">
@@ -214,17 +218,17 @@
     <!-- ============================================================== -->
     <!-- All Jquery -->
     <!-- ============================================================== -->
-    <script src="./frontend/admin/plugins/bower_components/jquery/dist/jquery.min.js"></script>
+    
     <!-- Bootstrap tether Core JavaScript -->
-    <script src="bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="js/app-style-switcher.js"></script>
-    <script src="./frontend/admin/plugins/bower_components/jquery-sparkline/jquery.sparkline.min.js"></script>
+    
+ 
+    <script src="{{asset('/frontend/admin/plugins/bower_components/jquery-sparkline/jquery.sparkline.min.js')}}"></script>
     <!--Wave Effects -->
-    <script src="./frontend/admin/js/waves.js"></script>
+    <script src="{{asset('/frontend/admin/js/waves.js')}}"></script>
     <!--Menu sidebar -->
-    <script src="./frontend/admin/js/sidebarmenu.js"></script>
+    <script src="{{asset('/frontend/admin/js/sidebarmenu.js')}}"></script>
     <!--Custom JavaScript -->
-    <script src="./frontend/admin/js/custom.js"></script>
+    <script src="{{asset('/frontend/admin/js/custom.js')}}"></script>
     
     <!--This page JavaScript -->
     <!--chartis chart-->

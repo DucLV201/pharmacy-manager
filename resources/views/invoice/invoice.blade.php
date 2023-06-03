@@ -1,4 +1,4 @@
-@extends('admin.header')
+@extends('invoice.header')
 @section('content')
 <link href="./frontend/admin/css/ds.css" rel="stylesheet">
 <script src="./frontend/admin/js/html5-qrcode.min.js"></script>
@@ -141,8 +141,8 @@
                   </select>
                </div>
                <br>
-               <button id="printButton" class="nutthanhtoan col-4">Thanh toán</button>
-               <div class="box-orange1 col-4">Tổng tiền: <span id="totalAmount">0đ</span></div>
+               <button id="printButton" class="nutthanhtoan col-4" name="redirect">Thanh toán</button>
+               <div class="box-orange1 col-4 tongbill">Tổng tiền: <span id="totalAmount">0đ</span></div>
             </div>         
          </div>
       </div>
@@ -151,7 +151,11 @@
 </div>
 <!-- ============================================================== -->
 <!-- End Container fluid  -->
+
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+<script src="{{asset('frontend/js/notify.js')}}"></script>
 <script src="./frontend/admin/js/hoadon.js"></script>
 
 <script>
@@ -308,8 +312,10 @@ $(document).ready(function() {
 <script>
    var employeeCode ="NV0"+"{{$id}}";
    var employeeName = "{{$name}}";
-   var orderCode = "Mã đơn hàng";
+   
    var addProductUrl = '{{URL::to("/them-don-hang")}}';
+   var addProductUrl1 = '{{URL::to("/them-don-hang-vnp")}}';
    var token ='{{csrf_token()}}';
+   
 </script>
 @endsection
