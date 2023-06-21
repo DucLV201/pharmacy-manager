@@ -21,8 +21,9 @@ class ProductController extends Controller
         ->join('product_bath', 'coupon.id_bath', '=', 'product_bath.id')
         ->join('categories', 'products.id_cate', '=', 'categories.id')
         ->select('products.*','product_bath.name_supplier','product_bath.address',DB::raw('categories.name as name_cate') )
+        ->groupby('products.id')
         ->where('products.id','=',$id)->get();
-        //  dd($detai_product);
+          //dd($detai_product);
         return view('user.details_product', ['categories' => $categories])
         ->with('product_details',$detai_product)->with('images',$images);
     }

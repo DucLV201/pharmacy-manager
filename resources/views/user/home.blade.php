@@ -107,7 +107,7 @@
                 <div class="khoisanpham" style="padding-bottom: 2rem;">
                     <!-- 1 san pham -->
                     @foreach($all_product as $prod)
-                    @if($prod->class == 1)
+                    @if($prod->featured == 1)
                     <div class="card">
                         <a href="{{URL::to('/chi-tiet-san-pham/'.$prod->id)}}" class="motsanpham"
                             style="text-decoration: none; color: black;" data-toggle="tooltip" data-placement="bottom"
@@ -205,7 +205,7 @@
                 </div>
                 <div class="khoisanpham">
                     @foreach($all_product as $prod)
-                    @if($prod->class == 2)
+                    @if($prod->bestsell == 1)
                     <div class="card">
                         <a href="{{URL::to('/chi-tiet-san-pham/'.$prod->id)}}" class="motsanpham"
                             style="text-decoration: none; color: black;" data-toggle="tooltip" data-placement="bottom"

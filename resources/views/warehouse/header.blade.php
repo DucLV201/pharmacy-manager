@@ -86,14 +86,14 @@
                         <!-- ============================================================== -->
                         <!-- Search -->
                         <!-- ============================================================== -->
-                        <!-- <li class=" in">
+                        <li class=" in">
                             <form role="search" class="app-search d-none d-md-block me-3">
                                 <input type="text" placeholder="Search..." class="form-control mt-0">
                                 <a href="" class="active">
                                     <i class="fa fa-search"></i>
                                 </a>
                             </form>
-                        </li> -->
+                        </li>
                         <!-- ============================================================== -->
                         <!-- User profile and search -->
                         <!-- ============================================================== -->
@@ -123,49 +123,36 @@
                 <ul id="sidebarnav">
                         <!-- User Profile-->
                         <li class="sidebar-item pt-2">
-                            <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{URL::to('/xuat-hoa-don')}}" aria-expanded="false">
-                                <i class="far fa-clock" aria-hidden="true"></i>
-                                <span class="hide-menu">Bán hàng</span>
+                            <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{URL::to('/xem-thong-bao')}}" aria-expanded="false">
+                                <i class="far fa-bell" aria-hidden="true"></i>
+                                <span class="hide-menu">Nhập và thu hồi thuốc</span>
                             </a>
                         </li>
                         <li class="sidebar-item">
-                            <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{URL::to('/xu-ly-don-hang')}}" aria-expanded="false">
-                                <i class="fas fa-ambulance" aria-hidden="true"></i>
-                                <span class="hide-menu">Đơn hàng</span>
+                            <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{URL::to('/xem-thong-ke-thuoc')}}" aria-expanded="false">
+                                <i class="fas fa-calculator" aria-hidden="true"></i>
+                                <span class="hide-menu">Thống kê thuốc</span>
                             </a>
                         </li>
                         <li class="sidebar-item">
-                            <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{URL::to('/lich-su-ban-hang')}}" aria-expanded="false">
+                            <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{URL::to('/thong-ke-nhap-thuoc')}}" aria-expanded="false">
                                 <i class="fas fa-bars" aria-hidden="true"></i>
-                                <span class="hide-menu">Lịch sử bán hàng</span>
+                                <span class="hide-menu">Thống kê nhập thuốc</span>
                             </a>
                         </li>
                         <li class="sidebar-item">
-                            <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{URL::to('/thong-ke-ban-hang')}}" aria-expanded="false">
+                            <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{URL::to('/quan-ly-danh-muc')}}" aria-expanded="false">
                                 <i class="fas fa-align-justify" aria-hidden="true"></i>
-                                <span class="hide-menu">Thống kê bán hàng</span>
+                                <span class="hide-menu">Quản lý danh mục</span>
                             </a>
                         </li>
                         
                         <li class="sidebar-item">
-                            <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{URL::to('/danh-muc-bai-viet')}}" aria-expanded="false">
-                                <i class="fas fa-clipboard-list" aria-hidden="true"></i>
-                                <span class="hide-menu">Danh mục bài viết</span>
-                            </a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{URL::to('/quan-ly-bai-viet')}}" aria-expanded="false">
+                            <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{URL::to('/quan-ly-thuoc')}}" aria-expanded="false">
                                 <i class="fas fa-boxes" aria-hidden="true"></i>
-                                <span class="hide-menu">Quản lý bài viết</span>
+                                <span class="hide-menu">Quản lý thuốc</span>
                             </a>
                         </li>
-                        <li class="sidebar-item">
-                            <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{URL::to('/danh-muc-thuoc')}}" aria-expanded="false">
-                                <i class="fas fa-th-list" aria-hidden="true"></i>
-                                <span class="hide-menu">Danh mục thuốc</span>
-                            </a>
-                        </li>
-
 
 
 
@@ -192,7 +179,7 @@
             <!-- ============================================================== -->
             <!-- footer -->
             <!-- ============================================================== -->
-            <footer class="footer text-center"> 2023 © Trang nhân viên bán hàng 
+            <footer class="footer text-center"> 2023 © Trang nhân viên kho 
             </footer>
             <!-- ============================================================== -->
             <!-- End footer -->

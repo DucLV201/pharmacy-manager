@@ -244,7 +244,12 @@
                             <a class="dropdown-item nutdangky text-center mb-2" href="{{URL::to('/dangxuat')}}">Đăng xuất</a>
                             @if(Session::get('user')->isadmin == 1)
                                 <a class="dropdown-item nutdangky text-center mb-2" href="{{URL::to('/xuat-hoa-don')}}">Trang nhân viên bán hàng</a>
-                                <a class="dropdown-item nutdangky text-center mb-2" href="{{URL::to('/show_dashboard')}}">Trang quản trị</a>
+                                <a class="dropdown-item nutdangky text-center mb-2" href="{{URL::to('/xem-thong-bao')}}">Trang nhân viên kho</a>
+                                <a class="dropdown-item nutdangky text-center mb-2" href="{{URL::to('/trang-thong-ke')}}">Trang quản trị</a>
+                            @elseif(Session::get('user')->isadmin == 2)
+                                <a class="dropdown-item nutdangky text-center mb-2" href="{{URL::to('/xuat-hoa-don')}}">Trang nhân viên bán hàng</a>
+                            @elseif(Session::get('user')->isadmin == 3)
+                                <a class="dropdown-item nutdangky text-center mb-2" href="{{URL::to('/xem-thong-bao')}}">Trang nhân viên kho</a>
                             @endif
                             <a class="dropdown-item nutdangky text-center mb-2" href="{{URL::to('/thong-tin-ca-nhan')}}">Tài khoản của bạn</a>
                         </div>
@@ -340,7 +345,7 @@
                     {{ csrf_field() }} 
                     <input type="hidden" name="_token" value="LAfo1u8NA1REx3Wc9FWVZQQc81pWseqbZqHCxhJ6"> 
                     <div class="form-group">
-                        <label for="res-fullname" class="form-label">Tài khoản</label>
+                        <label for="res-fullname" class="form-label">Họ Tên</label>
                         <input type="text" autocomplete="off" class="form-control" id="res-fullname" name="res-fullname">
                         <p class="form-message"></p>
                     </div>

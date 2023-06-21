@@ -73,11 +73,15 @@ Route::post('/vnpay_payment','CheckoutVNPayController@vnpay_payment' );
 Route::get('/checkout_complete', 'CartController@show_checkout');
 Route::get('/checkout_vnpay', 'CartController@returnvnpay');
 
-//Staff
+// Sale Staff
 Route::get('/path/to/product', 'ProductController@get_productid');
 Route::get('/xuat-hoa-don', 'InvoiceController@index');
 Route::get('/xu-ly-don-hang', 'InvoiceController@order_processing');
+Route::get('/lich-su-ban-hang', 'InvoiceController@sale_history');
 Route::get('/thong-ke-ban-hang', 'InvoiceController@sale_statistics');
+Route::get('/danh-muc-bai-viet', 'InvoiceController@postcate_manager');
+Route::get('/quan-ly-bai-viet', 'InvoiceController@post_manager');
+Route::get('/danh-muc-thuoc', 'InvoiceController@product_cate');
 Route::get('/chi-tiet-don-hang/{id}', 'InvoiceController@order_detail');
 Route::get('/chi-tiet-hoa-don/{id}', 'InvoiceController@bill_detail');
 Route::post('/them-don-hang', 'InvoiceController@add_retail');
@@ -87,6 +91,51 @@ Route::post('/order_confirm', 'InvoiceController@confirm_order');
 Route::post('/order_success', 'InvoiceController@success_order');
 Route::post('/order_cancer', 'InvoiceController@cancer_order');
 Route::post('/order_delete', 'InvoiceController@delete_order');
+Route::post('/filter-bill', 'InvoiceController@filter_bill');
+Route::post('/filter-ts', 'InvoiceController@filter_ts');
+Route::post('/add-postcate', 'InvoiceController@add_postcate');
+Route::post('/remove-postcate', 'InvoiceController@remove_postcate');
+Route::post('/update-postcate', 'InvoiceController@update_postcate');
+Route::post('/add-post', 'InvoiceController@add_post');
+Route::post('/remove-post', 'InvoiceController@remove_post');
+Route::get('/getInfor/post', 'InvoiceController@getinfor_post');
+Route::post('/update-post', 'InvoiceController@update_post');
+// Route::post('/reload_prod', 'InvoiceController@get_all_prod');
+Route::post('/featured_enable', 'InvoiceController@enableFeatured');
+Route::post('/featured_disable', 'InvoiceController@disableFeatured');
+Route::post('/bestsell_disable', 'InvoiceController@disableBestSell');
+Route::post('/bestsell_enable', 'InvoiceController@enableBestSell');
+
+//Warehouse Staff
+Route::get('/xem-thong-ke-thuoc', 'WarehouseController@statistics');
+Route::get('/thong-ke-nhap-thuoc', 'WarehouseController@statistics_in');
+Route::get('/quan-ly-danh-muc', 'WarehouseController@cate_manager');
+Route::get('/quan-ly-thuoc', 'WarehouseController@prod_manager');
+Route::get('/xem-thong-bao', 'WarehouseController@notification');
+Route::post('/request-recovery', 'WarehouseController@requestRecovery');
+Route::post('/request-import', 'WarehouseController@request_import');
+Route::post('/add-cate', 'WarehouseController@add_cate');
+Route::post('/remove-cate', 'WarehouseController@remove_cate');
+Route::post('/update-cate', 'WarehouseController@update_cate');
+Route::get('/them-thuoc', 'WarehouseController@gdadd_product');
+Route::post('/add-product', 'WarehouseController@add_product');
+Route::get('/sua-thuoc/{id}', 'WarehouseController@gdupdate_product');
+Route::post('/update-product', 'WarehouseController@update_product');
+Route::get('/nhap-thuoc', 'WarehouseController@gdimport_product');
+Route::post('/import-product', 'WarehouseController@import_product');
+Route::post('/remove-product', 'WarehouseController@remove_product');
+// admin
+Route::get('/trang-thong-ke', 'AdminController@index');
+Route::get('/phan-hoi-yeu-cau', 'AdminController@reply_request');
+Route::get('/phan-quyen-tai-khoan', 'AdminController@decentralization');
+Route::post('/reply-recall-y', 'AdminController@reply_recall_y');
+Route::post('/reply-recall-n', 'AdminController@reply_recall_n');
+Route::post('/reply-import-y', 'AdminController@reply_import_y');
+Route::post('/reply-import-n', 'AdminController@reply_import_n');
+Route::post('/user/undisable', 'AdminController@undisable');
+Route::post('/user/disable', 'AdminController@disable');
+Route::post('/user/update-permission', 'AdminController@update_permission');
+Route::post('/remove-user', 'AdminController@remove_user');
 //test
 //Route::get('/danh-muc-san-pham/{id}', 'CategoryProduct@yourMethod');
 Route::get('/test',function(){

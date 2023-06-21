@@ -96,7 +96,7 @@
                               $price = $value->price;
                               $num1 = $value->numberone;
                               $num2 = $value->numbertwo;
-                              $price1 = $price * $num1;
+                              $price1 = $price * $num2;
                               $price2 = $price * $num1 * $num2;
                               $unit1 = "";
                               $unit2 = "";
@@ -237,6 +237,7 @@
                              </tbody>
                           </table>
                        </div>
+                        @if($value->type_price==1)
                         <form action="{{URL::to('/save-cart')}}" method="POST">
                         {{csrf_field()}}
                           
@@ -258,6 +259,9 @@
                           <i> Chọn mua </i>
                           </button>
                        </form>
+                        @else
+                           <h5 style="padding-left: 20px; color: #db4141;">Cần sự tư vấn từ dược sỹ</h5>
+                        @endif
                     </div>
                  </div>
                  <!-- thông tin khác của sản phẩm:  tác giả, ngày xuất bản, kích thước ....  -->   

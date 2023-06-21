@@ -107,9 +107,9 @@
          </div>
 
             <div class="card-body">
-               <h3 class="box-title mb-0">Quét mã sản phẩm</h3>
+               <h3 class="box-title mb-0"></h3>
             </div>
-            <div style="width: 100%" id="reader"></div>
+            <!-- <div style="width: 100%" id="reader"></div> -->
          </div>
       </div>
       <div class="col-lg-6 col-md-12 col-sm-12">
@@ -282,31 +282,31 @@ $(document).ready(function() {
       }
       
       
-      function onScanSuccess(decodedText, decodedResult) {
-         // Handle on success condition with the decoded text or result.
-         console.log('Scan result: ${decodedText}', decodedResult);
-         $('#productId').val(decodedText) ;
-         getProductInfo(decodedText);
-         // setTimeout(
-         //     () => {
-         //         document.forms[1].submit();
+      // function onScanSuccess(decodedText, decodedResult) {
+      //    // Handle on success condition with the decoded text or result.
+      //    console.log('Scan result: ${decodedText}', decodedResult);
+      //    $('#productId').val(decodedText) ;
+      //    getProductInfo(decodedText);
+      //    // setTimeout(
+      //    //     () => {
+      //    //         document.forms[1].submit();
                   
-         //     },
-         //     2 * 1000
-         // );
+      //    //     },
+      //    //     2 * 1000
+      //    // );
          
 
-      }
+      // }
    
 
-      var html5QrcodeScanner = new Html5QrcodeScanner(
-         "reader", {
-            fps: 10,
-            qrbox: 350,
-            rememberLastUsedCamera: false,
-            formats: ["code_128"]
-         });
-      html5QrcodeScanner.render(onScanSuccess);
+      // var html5QrcodeScanner = new Html5QrcodeScanner(
+      //    "reader", {
+      //       fps: 10,
+      //       qrbox: 350,
+      //       rememberLastUsedCamera: false,
+      //       formats: ["code_128"]
+      //    });
+      // html5QrcodeScanner.render(onScanSuccess);
 });
 </script>
 <script>

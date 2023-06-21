@@ -12,7 +12,7 @@
         content="Ample Admin Lite is powerful and clean admin dashboard template, inpired from Bootstrap Framework">
     <meta name="robots" content="noindex,nofollow">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>Trang nhân viên</title>
+    <title>Trang quản trị</title>
     <link rel="canonical" href="https://www.wrappixel.com/templates/ample-admin-lite/" />
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="plugins/images/favicon.png">
@@ -86,14 +86,14 @@
                         <!-- ============================================================== -->
                         <!-- Search -->
                         <!-- ============================================================== -->
-                        <!-- <li class=" in">
+                        <li class=" in">
                             <form role="search" class="app-search d-none d-md-block me-3">
                                 <input type="text" placeholder="Search..." class="form-control mt-0">
                                 <a href="" class="active">
                                     <i class="fa fa-search"></i>
                                 </a>
                             </form>
-                        </li> -->
+                        </li>
                         <!-- ============================================================== -->
                         <!-- User profile and search -->
                         <!-- ============================================================== -->
@@ -123,49 +123,23 @@
                 <ul id="sidebarnav">
                         <!-- User Profile-->
                         <li class="sidebar-item pt-2">
-                            <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{URL::to('/xuat-hoa-don')}}" aria-expanded="false">
+                            <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{URL::to('/trang-thong-ke')}}" aria-expanded="false">
                                 <i class="far fa-clock" aria-hidden="true"></i>
-                                <span class="hide-menu">Bán hàng</span>
+                                <span class="hide-menu">Thống kê</span>
                             </a>
                         </li>
                         <li class="sidebar-item">
-                            <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{URL::to('/xu-ly-don-hang')}}" aria-expanded="false">
-                                <i class="fas fa-ambulance" aria-hidden="true"></i>
-                                <span class="hide-menu">Đơn hàng</span>
-                            </a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{URL::to('/lich-su-ban-hang')}}" aria-expanded="false">
+                            <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{URL::to('/phan-hoi-yeu-cau')}}" aria-expanded="false">
                                 <i class="fas fa-bars" aria-hidden="true"></i>
-                                <span class="hide-menu">Lịch sử bán hàng</span>
+                                <span class="hide-menu">Phản hồi yêu cầu</span>
                             </a>
-                        </li>
                         <li class="sidebar-item">
-                            <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{URL::to('/thong-ke-ban-hang')}}" aria-expanded="false">
-                                <i class="fas fa-align-justify" aria-hidden="true"></i>
-                                <span class="hide-menu">Thống kê bán hàng</span>
+                            <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{URL::to('/phan-quyen-tai-khoan')}}" aria-expanded="false">
+                                <i class="fas fa-user" aria-hidden="true"></i>
+                                <span class="hide-menu">Tài khoản</span>
                             </a>
                         </li>
-                        
-                        <li class="sidebar-item">
-                            <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{URL::to('/danh-muc-bai-viet')}}" aria-expanded="false">
-                                <i class="fas fa-clipboard-list" aria-hidden="true"></i>
-                                <span class="hide-menu">Danh mục bài viết</span>
-                            </a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{URL::to('/quan-ly-bai-viet')}}" aria-expanded="false">
-                                <i class="fas fa-boxes" aria-hidden="true"></i>
-                                <span class="hide-menu">Quản lý bài viết</span>
-                            </a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{URL::to('/danh-muc-thuoc')}}" aria-expanded="false">
-                                <i class="fas fa-th-list" aria-hidden="true"></i>
-                                <span class="hide-menu">Danh mục thuốc</span>
-                            </a>
-                        </li>
-
+            
 
 
 

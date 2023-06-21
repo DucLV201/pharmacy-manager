@@ -33,7 +33,7 @@ class HomeController extends Controller
         ->join('images', 'products.id', '=', 'images.id_prod')
         ->select('products.*', DB::raw('GROUP_CONCAT(images.url) as url'))
         ->groupBy('products.id')
-        ->where('products.class','=',2)
+        ->where('products.bestsell','=',1)
         ->take(4)
         ->get();
         $all_post = Post::join('post_cates','posts.id_cate','=','post_cates.id')

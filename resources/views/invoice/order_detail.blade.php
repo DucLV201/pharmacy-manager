@@ -125,7 +125,7 @@
         </div>
         <div class="total">
             <h5>Giảm giá: &nbsp{{number_format($order_info[0]->coupon)}}</h5>
-            <h5>Phí vận chuyển: {{number_format($order_info[0]->coupon)}}</h5>
+            <h5>Phí vận chuyển: {{number_format($order_info[0]->fee)}}</h5>
             <h4 style="font-weight:700">Tổng tiền: {{number_format($order_info[0]->totalmoney)}}</h4>
             <h6>{{$order_info[0]->payment}}</h6>
         </div>
