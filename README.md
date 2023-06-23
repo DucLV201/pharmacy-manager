@@ -1,3 +1,22 @@
+PHÂN TÍCH THIẾT KẾ HỆ THỐNG
+
+Tác nhân
+- Quản trị viên 
+- Nhân viên bán hàng
+- Nhân viên kho
+- Khách hàng
+- Khách vãng lai
+Đặc tả yêu cầu nghiệp vụ
+2.1 Khách vãng lai
+      Có thể tìm kiếm thuốc, xem thông tin thuốc, chọn mua thuốc, chỉnh sửa giỏ hàng, xem các thông tin của website và đăng ký tài khoản thành viên
+2.2 Khách hàng
+      Khách hàng là khách vãng lai đã đý tài khoản và kế thừa những chức năng của khách vãng lai. Đồng thời có thêm các chức năng như cập nhật thông tin tài khoản, thanh toán giỏ hàng, theo dõi tình trạng đơn hàng, xem danh sách đơn hàng đã mua, bình luận và đánh giá sách.
+2.3 Nhân viên bán hàng
+      Nhân viên có thể xuất hóa đơn bán thuốc, quản lý tủ thuốc, quản lý đơn hàng, quản lý kho thuốc.
+2.4 Nhân viên kho
+      Nhân viên kho có thể thống kê thuốc tồn kho và thuốc sắp hết hạn, gửi yêu cầu nhập hoặc thu hồi thuốc nếu thuốc sắp hết hạn hoặc có vấn đề.
+2.5 Quản trị viên
+      Quản trị viên có thể thực hiện tất cả các chức năng của các actor khác. Đồng thời quản lý tất cả các thông tin của hệ thống.
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
 
 <p align="center">
